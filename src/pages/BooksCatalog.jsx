@@ -1,95 +1,239 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Layout from '../components/Layout/Layout';
-import StatCard from '../components/Common/StatCard';
-import StatusBadge from '../components/Common/StatusBadge';
-import { books, libraryStats } from '../data/mockData';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import Layout from "../components/Layout/Layout";
+import StatCard from "../components/Common/StatCard";
+import StatusBadge from "../components/Common/StatusBadge";
+import { books, libraryStats } from "../data/mockData";
+import Header from "../components/Layout/Header";
 
 const BooksCatalog = () => {
   const [filters, setFilters] = useState({
-    search: '',
-    subject: 'all',
-    availability: 'all',
-    rack: 'all'
+    search: "",
+    subject: "all",
+    availability: "all",
+    rack: "all",
   });
 
   const handleFilterChange = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  const filteredBooks = books.filter(book => {
-    const matchesSearch = book.title.toLowerCase().includes(filters.search.toLowerCase()) ||
-                         book.author.toLowerCase().includes(filters.search.toLowerCase()) ||
-                         book.isbn.includes(filters.search);
-    const matchesSubject = filters.subject === 'all' || book.subject.toLowerCase() === filters.subject;
-    const matchesAvailability = filters.availability === 'all' || 
-                               (filters.availability === 'available' && book.availableCopies > 0) ||
-                               (filters.availability === 'out-of-stock' && book.availableCopies === 0);
-    
+  const filteredBooks = books.filter((book) => {
+    const matchesSearch =
+      book.title.toLowerCase().includes(filters.search.toLowerCase()) ||
+      book.author.toLowerCase().includes(filters.search.toLowerCase()) ||
+      book.isbn.includes(filters.search);
+    const matchesSubject =
+      filters.subject === "all" ||
+      book.subject.toLowerCase() === filters.subject;
+    const matchesAvailability =
+      filters.availability === "all" ||
+      (filters.availability === "available" && book.availableCopies > 0) ||
+      (filters.availability === "out-of-stock" && book.availableCopies === 0);
+
     return matchesSearch && matchesSubject && matchesAvailability;
   });
 
   const handleViewBook = (bookId) => {
-    console.log('View book:', bookId);
-    alert(`Opening book details for ID: ${bookId}\n(Backend integration required)`);
+    console.log("View book:", bookId);
+    alert(
+      `Opening book details for ID: ${bookId}\n(Backend integration required)`
+    );
   };
 
   const handleEditBook = (bookId) => {
-    console.log('Edit book:', bookId);
-    alert(`Opening edit form for book ID: ${bookId}\n(Backend integration required)`);
+    console.log("Edit book:", bookId);
+    alert(
+      `Opening edit form for book ID: ${bookId}\n(Backend integration required)`
+    );
   };
 
   const handleManageCopies = (bookId) => {
-    console.log('Manage copies for book:', bookId);
-    alert(`Opening copy management for book ID: ${bookId}\n(Backend integration required)`);
+    console.log("Manage copies for book:", bookId);
+    alert(
+      `Opening copy management for book ID: ${bookId}\n(Backend integration required)`
+    );
   };
 
   return (
-    <Layout>
+    <Layout showHeader={true} userRole="admin" userName="John Doe">
       {/* Page Header */}
-      <div className="card p-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
+      <div
+        style={{
+          background: "#fff",
+          padding: "2rem",
+          borderRadius: "10px",
+          border: "1px solid #e9ecef",
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+          marginBottom: "2rem",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
         <div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Books Catalog</h1>
-          <p className="text-xl text-gray-600">Complete library inventory with copy management</p>
+          <h1
+            style={{ fontSize: "2rem", color: "#333", marginBottom: "0.5rem" }}
+          >
+            Books Catalog
+          </h1>
+          <p style={{ color: "#666", fontSize: "1.1rem" }}>
+            Complete library inventory with copy management
+          </p>
         </div>
-        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
-          <Link to="/add-book" className="btn btn-primary">
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+          <Link
+            to="/add-book"
+            style={{
+              padding: "0.75rem 1.5rem",
+              border: "2px solid #333",
+              background: "#333",
+              color: "#fff",
+              textDecoration: "none",
+              fontWeight: "500",
+              borderRadius: "5px",
+              transition: "all 0.3s ease",
+              cursor: "pointer",
+              fontSize: "1rem",
+            }}
+            onMouseOver={(e) => {
+              e.target.style.background = "#555";
+              e.target.style.borderColor = "#555";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.background = "#333";
+              e.target.style.borderColor = "#333";
+            }}
+          >
             + Add New Book
           </Link>
-          <Link to="/add-book-copy" className="btn btn-secondary">
+          <Link
+            to="/add-book-copy"
+            style={{
+              padding: "0.75rem 1.5rem",
+              border: "2px solid #333",
+              background: "transparent",
+              color: "#333",
+              textDecoration: "none",
+              fontWeight: "500",
+              borderRadius: "5px",
+              transition: "all 0.3s ease",
+              cursor: "pointer",
+              fontSize: "1rem",
+            }}
+            onMouseOver={(e) => {
+              e.target.style.background = "#333";
+              e.target.style.color = "#fff";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.background = "transparent";
+              e.target.style.color = "#333";
+            }}
+          >
             + Add Copy
           </Link>
         </div>
       </div>
 
       {/* Inventory Summary */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-8">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+          gap: "1.5rem",
+          marginBottom: "2rem",
+        }}
+      >
         <StatCard title="Total Books" value={libraryStats.totalBooks} />
         <StatCard title="Total Copies" value={libraryStats.totalCopies} />
-        <StatCard title="Available" value={libraryStats.availableCopies} color="green" />
-        <StatCard title="Currently Issued" value={libraryStats.currentlyIssued} color="blue" />
+        <StatCard
+          title="Available"
+          value={libraryStats.availableCopies}
+          color="green"
+        />
+        <StatCard
+          title="Currently Issued"
+          value={libraryStats.currentlyIssued}
+          color="blue"
+        />
         <StatCard title="Rack Locations" value={libraryStats.rackLocations} />
       </div>
 
       {/* Filters */}
-      <div className="card p-6 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
-          <div>
-            <label className="form-label">Search Books</label>
+      <div
+        style={{
+          background: "#fff",
+          padding: "1.5rem",
+          borderRadius: "8px",
+          border: "1px solid #e9ecef",
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+          marginBottom: "2rem",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+            gap: "1rem",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "500",
+                color: "#333",
+              }}
+            >
+              Search Books
+            </label>
             <input
               type="text"
               placeholder="Title, author, or ISBN..."
               value={filters.search}
-              onChange={(e) => handleFilterChange('search', e.target.value)}
-              className="form-input"
+              onChange={(e) => handleFilterChange("search", e.target.value)}
+              style={{
+                width: "100%",
+                padding: "0.75rem",
+                border: "2px solid #e9ecef",
+                borderRadius: "5px",
+                fontSize: "1rem",
+                transition: "border-color 0.3s ease",
+                fontFamily: "inherit",
+              }}
+              onFocus={(e) => (e.target.style.borderColor = "#333")}
+              onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
             />
           </div>
-          <div>
-            <label className="form-label">Subject</label>
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "500",
+                color: "#333",
+              }}
+            >
+              Subject
+            </label>
             <select
               value={filters.subject}
-              onChange={(e) => handleFilterChange('subject', e.target.value)}
-              className="form-input"
+              onChange={(e) => handleFilterChange("subject", e.target.value)}
+              style={{
+                width: "100%",
+                padding: "0.75rem",
+                border: "2px solid #e9ecef",
+                borderRadius: "5px",
+                fontSize: "1rem",
+                transition: "border-color 0.3s ease",
+                fontFamily: "inherit",
+              }}
+              onFocus={(e) => (e.target.style.borderColor = "#333")}
+              onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
             >
               <option value="all">All Subjects</option>
               <option value="programming">Programming</option>
@@ -99,24 +243,64 @@ const BooksCatalog = () => {
               <option value="mathematics">Mathematics</option>
             </select>
           </div>
-          <div>
-            <label className="form-label">Availability</label>
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "500",
+                color: "#333",
+              }}
+            >
+              Availability
+            </label>
             <select
               value={filters.availability}
-              onChange={(e) => handleFilterChange('availability', e.target.value)}
-              className="form-input"
+              onChange={(e) =>
+                handleFilterChange("availability", e.target.value)
+              }
+              style={{
+                width: "100%",
+                padding: "0.75rem",
+                border: "2px solid #e9ecef",
+                borderRadius: "5px",
+                fontSize: "1rem",
+                transition: "border-color 0.3s ease",
+                fontFamily: "inherit",
+              }}
+              onFocus={(e) => (e.target.style.borderColor = "#333")}
+              onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
             >
               <option value="all">All Books</option>
               <option value="available">Available</option>
               <option value="out-of-stock">Out of Stock</option>
             </select>
           </div>
-          <div>
-            <label className="form-label">Rack Location</label>
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "500",
+                color: "#333",
+              }}
+            >
+              Rack Location
+            </label>
             <select
               value={filters.rack}
-              onChange={(e) => handleFilterChange('rack', e.target.value)}
-              className="form-input"
+              onChange={(e) => handleFilterChange("rack", e.target.value)}
+              style={{
+                width: "100%",
+                padding: "0.75rem",
+                border: "2px solid #e9ecef",
+                borderRadius: "5px",
+                fontSize: "1rem",
+                transition: "border-color 0.3s ease",
+                fontFamily: "inherit",
+              }}
+              onFocus={(e) => (e.target.style.borderColor = "#333")}
+              onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
             >
               <option value="all">All Racks</option>
               <option value="1">Rack 1</option>
@@ -125,7 +309,28 @@ const BooksCatalog = () => {
             </select>
           </div>
           <div>
-            <button className="btn btn-primary w-full">
+            <button
+              style={{
+                width: "100%",
+                padding: "0.75rem 1.5rem",
+                border: "2px solid #333",
+                background: "#333",
+                color: "#fff",
+                fontWeight: "500",
+                borderRadius: "5px",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                fontSize: "1rem",
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = "#555";
+                e.target.style.borderColor = "#555";
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = "#333";
+                e.target.style.borderColor = "#333";
+              }}
+            >
               Apply Filters
             </button>
           </div>
@@ -133,76 +338,316 @@ const BooksCatalog = () => {
       </div>
 
       {/* Books Grid */}
-      <div className="card">
-        <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-          <h2 className="text-xl font-semibold text-gray-800">Library Catalog</h2>
-          <span className="text-gray-600 text-sm">Showing {filteredBooks.length} books</span>
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: "10px",
+          border: "1px solid #e9ecef",
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <div
+          style={{
+            padding: "1.5rem",
+            borderBottom: "1px solid #e9ecef",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h2 style={{ fontSize: "1.3rem", color: "#333" }}>Library Catalog</h2>
+          <span style={{ color: "#666", fontSize: "0.9rem" }}>
+            Showing {filteredBooks.length} books
+          </span>
         </div>
 
-        <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div
+          style={{
+            padding: "1.5rem",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: "1.5rem",
+          }}
+        >
           {filteredBooks.map((book) => (
-            <div key={book.id} className="border-2 border-gray-200 rounded-lg p-6 hover:border-gray-800 hover:shadow-lg transition-all">
+            <div
+              key={book.id}
+              style={{
+                border: "2px solid #e9ecef",
+                borderRadius: "8px",
+                padding: "1.5rem",
+                transition: "all 0.3s ease",
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.borderColor = "#333";
+                e.currentTarget.style.boxShadow =
+                  "0 10px 30px rgba(0, 0, 0, 0.1)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.borderColor = "#e9ecef";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
               {/* Book Header */}
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-1">{book.title}</h3>
-                <p className="text-gray-600 italic mb-2">by {book.author}</p>
-                <span className="inline-block px-3 py-1 bg-gray-100 border border-gray-200 rounded-full text-xs text-gray-800">
+              <div style={{ marginBottom: "1rem" }}>
+                <h3
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: "bold",
+                    color: "#333",
+                    marginBottom: "0.2rem",
+                  }}
+                >
+                  {book.title}
+                </h3>
+                <p
+                  style={{
+                    color: "#666",
+                    fontStyle: "italic",
+                    marginBottom: "0.5rem",
+                  }}
+                >
+                  by {book.author}
+                </p>
+                <span
+                  style={{
+                    display: "inline-block",
+                    padding: "0.3rem 0.75rem",
+                    background: "#f8f9fa",
+                    border: "1px solid #e9ecef",
+                    borderRadius: "15px",
+                    fontSize: "0.8rem",
+                    color: "#333",
+                  }}
+                >
                   {book.subject}
                 </span>
               </div>
 
               {/* Book Details */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "1rem",
+                  marginBottom: "1rem",
+                }}
+              >
                 <div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">ISBN</div>
-                  <div className="font-medium text-gray-800">{book.isbn}</div>
+                  <div
+                    style={{
+                      fontSize: "0.8rem",
+                      color: "#666",
+                      textTransform: "uppercase",
+                      marginBottom: "0.2rem",
+                    }}
+                  >
+                    ISBN
+                  </div>
+                  <div style={{ fontWeight: "500", color: "#333" }}>
+                    {book.isbn}
+                  </div>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">Price</div>
-                  <div className="font-medium text-gray-800">₹{book.price.toLocaleString()}</div>
+                  <div
+                    style={{
+                      fontSize: "0.8rem",
+                      color: "#666",
+                      textTransform: "uppercase",
+                      marginBottom: "0.2rem",
+                    }}
+                  >
+                    Price
+                  </div>
+                  <div style={{ fontWeight: "500", color: "#333" }}>
+                    ₹{book.price.toLocaleString()}
+                  </div>
                 </div>
               </div>
 
               {/* Copies Info */}
-              <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                <div className="grid grid-cols-3 gap-4 text-center">
+              <div
+                style={{
+                  background: "#f8f9fa",
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  border: "1px solid #e9ecef",
+                  marginBottom: "1rem",
+                }}
+              >
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr 1fr",
+                    gap: "1rem",
+                    textAlign: "center",
+                  }}
+                >
                   <div>
-                    <div className="text-xl font-bold text-gray-800">{book.totalCopies}</div>
-                    <div className="text-xs text-gray-500 uppercase">Total</div>
+                    <div
+                      style={{
+                        fontSize: "1.2rem",
+                        fontWeight: "bold",
+                        color: "#333",
+                      }}
+                    >
+                      {book.totalCopies}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "0.8rem",
+                        color: "#666",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Total
+                    </div>
                   </div>
                   <div>
-                    <div className="text-xl font-bold text-green-600">{book.availableCopies}</div>
-                    <div className="text-xs text-gray-500 uppercase">Available</div>
+                    <div
+                      style={{
+                        fontSize: "1.2rem",
+                        fontWeight: "bold",
+                        color: "#28a745",
+                      }}
+                    >
+                      {book.availableCopies}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "0.8rem",
+                        color: "#666",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Available
+                    </div>
                   </div>
                   <div>
-                    <div className="text-xl font-bold text-red-600">{book.issuedCopies}</div>
-                    <div className="text-xs text-gray-500 uppercase">Issued</div>
+                    <div
+                      style={{
+                        fontSize: "1.2rem",
+                        fontWeight: "bold",
+                        color: "#dc3545",
+                      }}
+                    >
+                      {book.issuedCopies}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "0.8rem",
+                        color: "#666",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Issued
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Actions */}
-              <div className="flex justify-end space-x-2">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  gap: "0.5rem",
+                }}
+              >
                 <button
                   onClick={() => handleViewBook(book.id)}
-                  className="btn btn-secondary btn-small"
+                  style={{
+                    padding: "0.5rem 1rem",
+                    border: "2px solid #333",
+                    background: "transparent",
+                    color: "#333",
+                    fontWeight: "500",
+                    borderRadius: "5px",
+                    transition: "all 0.3s ease",
+                    cursor: "pointer",
+                    fontSize: "0.9rem",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.background = "#333";
+                    e.target.style.color = "#fff";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.background = "transparent";
+                    e.target.style.color = "#333";
+                  }}
                 >
                   View
                 </button>
                 <button
                   onClick={() => handleEditBook(book.id)}
-                  className="btn btn-secondary btn-small"
+                  style={{
+                    padding: "0.5rem 1rem",
+                    border: "2px solid #333",
+                    background: "transparent",
+                    color: "#333",
+                    fontWeight: "500",
+                    borderRadius: "5px",
+                    transition: "all 0.3s ease",
+                    cursor: "pointer",
+                    fontSize: "0.9rem",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.background = "#333";
+                    e.target.style.color = "#fff";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.background = "transparent";
+                    e.target.style.color = "#333";
+                  }}
                 >
                   Edit
                 </button>
                 {book.availableCopies === 0 ? (
-                  <button className="btn btn-primary btn-small">
+                  <button
+                    style={{
+                      padding: "0.5rem 1rem",
+                      border: "2px solid #333",
+                      background: "#333",
+                      color: "#fff",
+                      fontWeight: "500",
+                      borderRadius: "5px",
+                      transition: "all 0.3s ease",
+                      cursor: "pointer",
+                      fontSize: "0.9rem",
+                    }}
+                    onMouseOver={(e) => {
+                      e.target.style.background = "#555";
+                      e.target.style.borderColor = "#555";
+                    }}
+                    onMouseOut={(e) => {
+                      e.target.style.background = "#333";
+                      e.target.style.borderColor = "#333";
+                    }}
+                  >
                     Add Copy
                   </button>
                 ) : (
                   <button
                     onClick={() => handleManageCopies(book.id)}
-                    className="btn btn-secondary btn-small"
+                    style={{
+                      padding: "0.5rem 1rem",
+                      border: "2px solid #333",
+                      background: "transparent",
+                      color: "#333",
+                      fontWeight: "500",
+                      borderRadius: "5px",
+                      transition: "all 0.3s ease",
+                      cursor: "pointer",
+                      fontSize: "0.9rem",
+                    }}
+                    onMouseOver={(e) => {
+                      e.target.style.background = "#333";
+                      e.target.style.color = "#fff";
+                    }}
+                    onMouseOut={(e) => {
+                      e.target.style.background = "transparent";
+                      e.target.style.color = "#333";
+                    }}
                   >
                     Copies
                   </button>
@@ -213,17 +658,109 @@ const BooksCatalog = () => {
         </div>
 
         {/* Pagination */}
-        <div className="p-6 border-t border-gray-200 flex justify-between items-center">
-          <div className="text-gray-600 text-sm">Showing 1-{filteredBooks.length} of {books.length} books</div>
-          <div className="flex space-x-2">
-            <button className="px-3 py-1 border border-gray-200 bg-white text-gray-600 rounded text-sm hover:border-gray-800 hover:bg-gray-50">
+        <div
+          style={{
+            padding: "1.5rem",
+            borderTop: "1px solid #e9ecef",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ color: "#666", fontSize: "0.9rem" }}>
+            Showing 1-{filteredBooks.length} of {books.length} books
+          </div>
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            <button
+              style={{
+                padding: "0.5rem 1rem",
+                border: "2px solid #333",
+                background: "transparent",
+                color: "#333",
+                fontWeight: "500",
+                borderRadius: "5px",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                fontSize: "0.9rem",
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = "#333";
+                e.target.style.color = "#fff";
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = "transparent";
+                e.target.style.color = "#333";
+              }}
+            >
               Previous
             </button>
-            <button className="px-3 py-1 bg-gray-800 text-white rounded text-sm">1</button>
-            <button className="px-3 py-1 border border-gray-200 bg-white text-gray-600 rounded text-sm hover:border-gray-800 hover:bg-gray-50">
+            <button
+              style={{
+                padding: "0.5rem 1rem",
+                border: "2px solid #333",
+                background: "#333",
+                color: "#fff",
+                fontWeight: "500",
+                borderRadius: "5px",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                fontSize: "0.9rem",
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = "#555";
+                e.target.style.borderColor = "#555";
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = "#333";
+                e.target.style.borderColor = "#333";
+              }}
+            >
+              1
+            </button>
+            <button
+              style={{
+                padding: "0.5rem 1rem",
+                border: "2px solid #333",
+                background: "transparent",
+                color: "#333",
+                fontWeight: "500",
+                borderRadius: "5px",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                fontSize: "0.9rem",
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = "#333";
+                e.target.style.color = "#fff";
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = "transparent";
+                e.target.style.color = "#333";
+              }}
+            >
               2
             </button>
-            <button className="px-3 py-1 border border-gray-200 bg-white text-gray-600 rounded text-sm hover:border-gray-800 hover:bg-gray-50">
+            <button
+              style={{
+                padding: "0.5rem 1rem",
+                border: "2px solid #333",
+                background: "transparent",
+                color: "#333",
+                fontWeight: "500",
+                borderRadius: "5px",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                fontSize: "0.9rem",
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = "#333";
+                e.target.style.color = "#fff";
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = "transparent";
+                e.target.style.color = "#333";
+              }}
+            >
               Next
             </button>
           </div>

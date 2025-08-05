@@ -1,341 +1,440 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Layout from '../components/Layout/Layout';
-import { subjects } from '../data/mockData';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Layout from "../components/Layout/Layout";
 
-const AddBook = () => {
-  const [formData, setFormData] = useState({
-    title: '',
-    author: '',
-    subject: '',
-    isbn: '',
-    price: '',
-    description: '',
-    copyOption: 'later',
-    copyCount: 1,
-    defaultRack: ''
-  });
-  const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState('');
+export default function AddBookForm() {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    bookTitle: "",
+    author: "",
+    subject: "",
+    isbn: "",
+    price: "",
+    description: "",
+    copyOption: "later",
+    copyCount: 1,
+    defaultRack: "",
+  });
+
+  const [messages, setMessages] = useState({ error: "", success: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleISBNChange = (e) => {
-    let value = e.target.value.replace(/[^\d]/g, '');
-    if (value.length >= 3) {
-      value = '978-' + value.substring(3);
-    }
-    setFormData(prev => ({ ...prev, isbn: value }));
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.title.trim()) newErrors.title = 'Book title is required';
-    if (!formData.author.trim()) newErrors.author = 'Author is required';
-    if (!formData.subject) newErrors.subject = 'Subject is required';
-    if (!formData.isbn.trim()) newErrors.isbn = 'ISBN is required';
-    if (!formData.price || parseFloat(formData.price) <= 0) newErrors.price = 'Valid price is required';
-
-    // ISBN validation
-    const isbnPattern = /^978-\d{10}$/;
-    if (formData.isbn && !isbnPattern.test(formData.isbn)) {
-      newErrors.isbn = 'Please enter a valid ISBN in format: 978-XXXXXXXXX';
-    }
-
-    // Copy validation if adding now
-    if (formData.copyOption === 'now') {
-      if (!formData.copyCount || formData.copyCount < 1) {
-        newErrors.copyCount = 'Copy count must be at least 1';
-      }
-      if (!formData.defaultRack) {
-        newErrors.defaultRack = 'Please select a rack location';
-      }
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const handleCopyOption = (e) => {
+    setFormData((prev) => ({ ...prev, copyOption: e.target.value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (!validateForm()) return;
+    setMessages({ error: "", success: "" });
 
-    // Success simulation
-    console.log('Book data to be submitted:', formData);
-    setSuccess(`Book "${formData.title}" has been successfully added to the library!`);
-    
+    const {
+      bookTitle,
+      author,
+      subject,
+      isbn,
+      price,
+      copyOption,
+      copyCount,
+      defaultRack,
+    } = formData;
+
+    if (!bookTitle || !author || !subject || !isbn || !price) {
+      setMessages({
+        error: "Please fill in all required fields.",
+        success: "",
+      });
+      return;
+    }
+
+    const isbnPattern = /^978-\d{10}$/;
+    if (!isbnPattern.test(isbn)) {
+      setMessages({
+        error: "Please enter a valid ISBN in format: 978-XXXXXXXXX",
+        success: "",
+      });
+      return;
+    }
+
+    if (parseFloat(price) <= 0) {
+      setMessages({ error: "Price must be greater than 0.", success: "" });
+      return;
+    }
+
+    if (copyOption === "now" && (!copyCount || !defaultRack)) {
+      setMessages({
+        error: "Please specify copy count and rack location.",
+        success: "",
+      });
+      return;
+    }
+
+    console.log("Book data submitted:", formData);
+    setMessages({
+      error: "",
+      success: `Book "${bookTitle}" has been successfully added to the library!`,
+    });
+
     setTimeout(() => {
-      if (confirm('Book added successfully! Would you like to add another book?')) {
+      if (
+        window.confirm(
+          "Book added successfully! Would you like to add another book?"
+        )
+      ) {
         setFormData({
-          title: '',
-          author: '',
-          subject: '',
-          isbn: '',
-          price: '',
-          description: '',
-          copyOption: 'later',
+          bookTitle: "",
+          author: "",
+          subject: "",
+          isbn: "",
+          price: "",
+          description: "",
+          copyOption: "later",
           copyCount: 1,
-          defaultRack: ''
+          defaultRack: "",
         });
-        setSuccess('');
       } else {
-        navigate('/books-catalog');
+        navigate("/books-catalog");
       }
     }, 1500);
   };
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto">
-        <div className="card p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">Add New Book</h1>
-            <p className="text-xl text-gray-600">Register a new book title in the library system</p>
+      <div
+        style={{
+          background: "#fff",
+          padding: "3rem",
+          borderRadius: "10px",
+          border: "1px solid #e9ecef",
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+          <h1 style={{ fontSize: "2rem", color: "#333" }}>Add New Book</h1>
+          <p style={{ color: "#666", fontSize: "1.1rem" }}>
+            Register a new book title in the library system
+          </p>
+        </div>
+
+        {messages.error && (
+          <div
+            style={{
+              background: "#f8d7da",
+              padding: "1rem",
+              borderRadius: 5,
+              color: "#721c24",
+              marginBottom: 16,
+            }}
+          >
+            {messages.error}
           </div>
+        )}
+        {messages.success && (
+          <div
+            style={{
+              background: "#d4edda",
+              padding: "1rem",
+              borderRadius: 5,
+              color: "#155724",
+              marginBottom: 16,
+            }}
+          >
+            {messages.success}
+          </div>
+        )}
 
-          {errors.general && (
-            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6">
-              {errors.general}
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: "2rem" }}>
+            <h2
+              style={{
+                fontSize: "1.3rem",
+                color: "#333",
+                borderBottom: "2px solid #e9ecef",
+                paddingBottom: "0.5rem",
+                marginBottom: "1rem",
+              }}
+            >
+              Book Information
+            </h2>
+
+            <div style={{ marginBottom: "1.5rem" }}>
+              <label>
+                Book Title <span style={{ color: "#dc3545" }}>*</span>
+              </label>
+              <input
+                type="text"
+                name="bookTitle"
+                value={formData.bookTitle}
+                onChange={handleChange}
+                placeholder="Enter the complete book title"
+                required
+                style={inputStyle}
+              />
+              <div style={helpTextStyle}>
+                Enter the full title as it appears on the book cover
+              </div>
             </div>
-          )}
 
-          {success && (
-            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-6">
-              {success}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit}>
-            {/* Book Information */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b-2 border-gray-200">
-                Book Information
-              </h2>
-
-              <div className="mb-6">
-                <label htmlFor="title" className="form-label">
-                  Book Title <span className="text-red-500">*</span>
+            <div style={formRowStyle}>
+              <div style={{ marginBottom: "1.5rem" }}>
+                <label>
+                  Author <span style={{ color: "#dc3545" }}>*</span>
                 </label>
                 <input
                   type="text"
-                  id="title"
-                  name="title"
-                  value={formData.title}
+                  name="author"
+                  value={formData.author}
                   onChange={handleChange}
-                  placeholder="Enter the complete book title"
-                  className={`form-input ${errors.title ? 'border-red-500' : ''}`}
+                  placeholder="Author name(s)"
                   required
+                  style={inputStyle}
                 />
-                {errors.title && <div className="text-red-500 text-sm mt-1">{errors.title}</div>}
-                <div className="text-gray-500 text-sm mt-1">
-                  Enter the full title as it appears on the book cover
+                <div style={helpTextStyle}>
+                  For multiple authors, separate with commas
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="author" className="form-label">
-                    Author <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="author"
-                    name="author"
-                    value={formData.author}
-                    onChange={handleChange}
-                    placeholder="Author name(s)"
-                    className={`form-input ${errors.author ? 'border-red-500' : ''}`}
-                    required
-                  />
-                  {errors.author && <div className="text-red-500 text-sm mt-1">{errors.author}</div>}
-                  <div className="text-gray-500 text-sm mt-1">
-                    For multiple authors, separate with commas
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="subject" className="form-label">
-                    Subject <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className={`form-input ${errors.subject ? 'border-red-500' : ''}`}
-                    required
-                  >
-                    <option value="">Select Subject</option>
-                    {subjects.map(subject => (
-                      <option key={subject} value={subject.toLowerCase()}>
-                        {subject}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.subject && <div className="text-red-500 text-sm mt-1">{errors.subject}</div>}
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="isbn" className="form-label">
-                    ISBN <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="isbn"
-                    name="isbn"
-                    value={formData.isbn}
-                    onChange={handleISBNChange}
-                    placeholder="978-XXXXXXXXX"
-                    className={`form-input ${errors.isbn ? 'border-red-500' : ''}`}
-                    required
-                  />
-                  {errors.isbn && <div className="text-red-500 text-sm mt-1">{errors.isbn}</div>}
-                  <div className="text-gray-500 text-sm mt-1">
-                    13-digit ISBN number (including hyphens)
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="price" className="form-label">
-                    Price (₹) <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    id="price"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    placeholder="0.00"
-                    step="0.01"
-                    min="0"
-                    className={`form-input ${errors.price ? 'border-red-500' : ''}`}
-                    required
-                  />
-                  {errors.price && <div className="text-red-500 text-sm mt-1">{errors.price}</div>}
-                  <div className="text-gray-500 text-sm mt-1">Book purchase price in rupees</div>
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <label htmlFor="description" className="form-label">Description (Optional)</label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={formData.description}
+              <div style={{ marginBottom: "1.5rem" }}>
+                <label>
+                  Subject <span style={{ color: "#dc3545" }}>*</span>
+                </label>
+                <select
+                  name="subject"
+                  value={formData.subject}
                   onChange={handleChange}
-                  placeholder="Brief description or summary of the book..."
-                  className="form-input min-h-24 resize-vertical"
-                />
-                <div className="text-gray-500 text-sm mt-1">
-                  Optional book summary or description for library records
-                </div>
+                  required
+                  style={inputStyle}
+                >
+                  <option value="">Select Subject</option>
+                  <option value="programming">Programming</option>
+                  <option value="science">Science</option>
+                  <option value="mathematics">Mathematics</option>
+                  <option value="literature">Literature</option>
+                  <option value="history">History</option>
+                  <option value="philosophy">Philosophy</option>
+                  <option value="business">Business</option>
+                  <option value="arts">Arts</option>
+                  <option value="other">Other</option>
+                </select>
               </div>
             </div>
 
-            {/* Initial Copies */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b-2 border-gray-200">
-                Initial Copies
-              </h2>
-
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-                <h3 className="font-semibold text-gray-800 mb-4">
-                  How many copies would you like to add initially?
-                </h3>
-
-                <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 mb-4">
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      name="copyOption"
-                      value="later"
-                      checked={formData.copyOption === 'later'}
-                      onChange={handleChange}
-                      className="w-4 h-4"
-                    />
-                    <span>Add copies later</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      name="copyOption"
-                      value="now"
-                      checked={formData.copyOption === 'now'}
-                      onChange={handleChange}
-                      className="w-4 h-4"
-                    />
-                    <span>Add copies now</span>
-                  </label>
+            <div style={formRowStyle}>
+              <div style={{ marginBottom: "1.5rem" }}>
+                <label>
+                  ISBN <span style={{ color: "#dc3545" }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  name="isbn"
+                  value={formData.isbn}
+                  onChange={handleChange}
+                  placeholder="978-XXXXXXXXX"
+                  required
+                  style={inputStyle}
+                />
+                <div style={helpTextStyle}>
+                  13-digit ISBN number (including hyphens)
                 </div>
+              </div>
+              <div style={{ marginBottom: "1.5rem" }}>
+                <label>
+                  Price (₹) <span style={{ color: "#dc3545" }}>*</span>
+                </label>
+                <input
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="0.00"
+                  step="0.01"
+                  min="0"
+                  required
+                  style={inputStyle}
+                />
+                <div style={helpTextStyle}>Book purchase price in rupees</div>
+              </div>
+            </div>
 
-                {formData.copyOption === 'now' && (
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="copyCount" className="form-label">Number of Copies</label>
-                      <input
-                        type="number"
-                        id="copyCount"
-                        name="copyCount"
-                        value={formData.copyCount}
-                        onChange={handleChange}
-                        min="1"
-                        max="20"
-                        className={`form-input ${errors.copyCount ? 'border-red-500' : ''}`}
-                      />
-                      {errors.copyCount && <div className="text-red-500 text-sm mt-1">{errors.copyCount}</div>}
-                      <div className="text-gray-500 text-sm mt-1">
-                        How many physical copies to add (1-20)
-                      </div>
-                    </div>
-                    <div>
-                      <label htmlFor="defaultRack" className="form-label">Default Rack Location</label>
-                      <select
-                        id="defaultRack"
-                        name="defaultRack"
-                        value={formData.defaultRack}
-                        onChange={handleChange}
-                        className={`form-input ${errors.defaultRack ? 'border-red-500' : ''}`}
-                      >
-                        <option value="">Select Rack</option>
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map(rack => (
-                          <option key={rack} value={rack}>Rack {rack}</option>
-                        ))}
-                      </select>
-                      {errors.defaultRack && <div className="text-red-500 text-sm mt-1">{errors.defaultRack}</div>}
-                      <div className="text-gray-500 text-sm mt-1">
-                        Rack where copies will be placed
-                      </div>
+            <div style={{ marginBottom: "1.5rem" }}>
+              <label>Description (Optional)</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Brief description or summary of the book..."
+                style={{ ...inputStyle, minHeight: "100px" }}
+              ></textarea>
+              <div style={helpTextStyle}>
+                Optional book summary or description for library records
+              </div>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: "2rem" }}>
+            <h2
+              style={{
+                fontSize: "1.3rem",
+                color: "#333",
+                borderBottom: "2px solid #e9ecef",
+                paddingBottom: "0.5rem",
+                marginBottom: "1rem",
+              }}
+            >
+              Initial Copies
+            </h2>
+
+            <div
+              style={{
+                background: "#f8f9fa",
+                padding: "1.5rem",
+                borderRadius: 8,
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <h3 style={{ color: "#333", marginBottom: "1rem" }}>
+                How many copies would you like to add initially?
+              </h3>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "2rem",
+                  marginBottom: "1rem",
+                  flexWrap: "wrap",
+                }}
+              >
+                <label style={radioGroupStyle}>
+                  <input
+                    type="radio"
+                    name="copyOption"
+                    value="later"
+                    checked={formData.copyOption === "later"}
+                    onChange={handleCopyOption}
+                  />
+                  Add copies later
+                </label>
+                <label style={radioGroupStyle}>
+                  <input
+                    type="radio"
+                    name="copyOption"
+                    value="now"
+                    checked={formData.copyOption === "now"}
+                    onChange={handleCopyOption}
+                  />
+                  Add copies now
+                </label>
+              </div>
+
+              {formData.copyOption === "now" && (
+                <div style={formRowStyle}>
+                  <div style={{ marginBottom: "1.5rem" }}>
+                    <label>Number of Copies</label>
+                    <input
+                      type="number"
+                      name="copyCount"
+                      min="1"
+                      max="20"
+                      value={formData.copyCount}
+                      onChange={handleChange}
+                      style={inputStyle}
+                    />
+                    <div style={helpTextStyle}>
+                      How many physical copies to add (1-20)
                     </div>
                   </div>
-                )}
-              </div>
+                  <div style={{ marginBottom: "1.5rem" }}>
+                    <label>Default Rack Location</label>
+                    <select
+                      name="defaultRack"
+                      value={formData.defaultRack}
+                      onChange={handleChange}
+                      style={inputStyle}
+                    >
+                      <option value="">Select Rack</option>
+                      {[...Array(8)].map((_, i) => (
+                        <option key={i + 1} value={i + 1}>{`Rack ${
+                          i + 1
+                        }`}</option>
+                      ))}
+                    </select>
+                    <div style={helpTextStyle}>
+                      Rack where copies will be placed
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
+          </div>
 
-            {/* Form Actions */}
-            <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4 pt-8 border-t border-gray-200">
-              <button type="submit" className="btn btn-primary">
-                Add Book to Library
-              </button>
-              <Link to="/books-catalog" className="btn btn-secondary">
-                Cancel
-              </Link>
-            </div>
-          </form>
-        </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              justifyContent: "center",
+              marginTop: "2rem",
+              borderTop: "1px solid #e9ecef",
+              paddingTop: "2rem",
+            }}
+          >
+            <button type="submit" style={btnStyle}>
+              Add Book to Library
+            </button>
+            <button
+              type="button"
+              style={{ ...btnStyle, ...btnSecondaryStyle }}
+              onClick={() => navigate("/books-catalog")}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </Layout>
   );
+}
+
+const inputStyle = {
+  width: "100%",
+  padding: "0.75rem",
+  border: "2px solid #e9ecef",
+  borderRadius: "5px",
+  fontSize: "1rem",
+  fontFamily: "inherit",
 };
 
-export default AddBook;
+const helpTextStyle = {
+  fontSize: "0.9rem",
+  color: "#666",
+  marginTop: "0.3rem",
+};
+
+const btnStyle = {
+  padding: "0.75rem 1.5rem",
+  border: "2px solid #333",
+  background: "#333",
+  color: "#fff",
+  fontWeight: 500,
+  borderRadius: "5px",
+  fontSize: "1rem",
+  cursor: "pointer",
+};
+
+const btnSecondaryStyle = {
+  background: "transparent",
+  color: "#333",
+};
+
+const formRowStyle = {
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gap: "1rem",
+};
+
+const radioGroupStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "0.5rem",
+};

@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import BooksCatalog from "./pages/BooksCatalog";
 import AddBook from "./pages/AddBook";
 import "./index.css";
+import AddBookCopy from "./pages/AddBookCopy";
 
 function App() {
   return (
@@ -40,10 +41,7 @@ function App() {
             path="/overdue-books"
             element={<div>Overdue Books Page (Coming Soon)</div>}
           />
-          <Route
-            path="/add-book-copy"
-            element={<div>Add Book Copy Page (Coming Soon)</div>}
-          />
+          <Route path="/add-book-copy" element={<AddBookCopy />} />
           <Route
             path="/user-management"
             element={<div>User Management Page (Coming Soon)</div>}

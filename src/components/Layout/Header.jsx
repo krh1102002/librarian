@@ -1,30 +1,128 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = ({ userRole = "Librarian", userName = "Sarah Johnson" }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     // Handle logout logic here
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
-    <header className="bg-white border-b-2 border-gray-200 shadow-lg sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          <Link to="/" className="text-xl font-bold text-gray-800">
+    <header
+      style={{
+        background: "#fff",
+        borderBottom: "2px solid #e9ecef",
+        boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+        position: "sticky",
+        top: "0",
+        zIndex: "50",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1140px",
+          marginLeft: "auto",
+          marginRight: "auto",
+          paddingLeft: "1rem",
+          paddingRight: "1rem",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingTop: "1rem",
+            paddingBottom: "1rem",
+          }}
+        >
+          <Link
+            to="/"
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+              color: "#333",
+              textDecoration: "none",
+            }}
+          >
             Library Management System
           </Link>
-          
-          <div className="flex items-center space-x-4">
-            <span className="bg-gray-800 text-white px-3 py-1 rounded-full text-xs font-medium uppercase">
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+            }}
+          >
+            <span
+              style={{
+                background: "#333",
+                color: "#fff",
+                padding: "0.25rem 0.75rem",
+                borderRadius: "15px",
+                fontSize: "0.75rem",
+                fontWeight: "500",
+                textTransform: "uppercase",
+              }}
+            >
               {userRole}
             </span>
-            <span className="text-gray-700">{userName}</span>
-            <Link to="/profile" className="btn btn-secondary btn-small">
+            <span
+              style={{
+                color: "#666",
+              }}
+            >
+              {userName}
+            </span>
+            <Link
+              to="/profile"
+              style={{
+                padding: "0.5rem 1rem",
+                border: "2px solid #333",
+                background: "transparent",
+                color: "#333",
+                fontWeight: "500",
+                borderRadius: "5px",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                fontSize: "0.9rem",
+                textDecoration: "none",
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = "#333";
+                e.target.style.color = "#fff";
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = "transparent";
+                e.target.style.color = "#333";
+              }}
+            >
               Profile
             </Link>
-            <button onClick={handleLogout} className="btn btn-secondary btn-small">
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: "0.5rem 1rem",
+                border: "2px solid #333",
+                background: "transparent",
+                color: "#333",
+                fontWeight: "500",
+                borderRadius: "5px",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                fontSize: "0.9rem",
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = "#333";
+                e.target.style.color = "#fff";
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = "transparent";
+                e.target.style.color = "#333";
+              }}
+            >
               Sign Out
             </button>
           </div>

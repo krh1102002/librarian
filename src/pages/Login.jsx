@@ -1,95 +1,221 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (formData.email && formData.password) {
-      // Mock login logic - redirect to dashboard
-      console.log('Login attempt:', formData);
-      navigate('/dashboard');
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    if (email && password) {
+      console.log("Login attempt:", { email, password });
+      alert("Login functionality will be implemented with backend integration");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="absolute top-8 left-8">
-        <Link to="/" className="btn btn-secondary btn-small">
-          ← Back to Home
-        </Link>
-      </div>
+    <>
+      <style>{`
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
 
-      <div className="card p-8 w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Sign In</h1>
-          <p className="text-gray-600">Access your library account</p>
+        body, html, #root {
+          height: 100%;
+        }
+
+        .signin-body {
+          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #f8f9fa;
+          color: #333;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .login-container {
+          background: #fff;
+          padding: 3rem 2.5rem;
+          border-radius: 10px;
+          border: 1px solid #e9ecef;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          width: 100%;
+          max-width: 400px;
+        }
+
+        .logo {
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+
+        .logo h1 {
+          font-size: 1.8rem;
+          color: #333;
+          margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+          color: #666;
+          font-size: 0.9rem;
+        }
+
+        .form-group {
+          margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+          color: #333;
+        }
+
+        .form-group input {
+          width: 100%;
+          padding: 0.75rem;
+          border: 2px solid #e9ecef;
+          border-radius: 5px;
+          font-size: 1rem;
+          transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+          outline: none;
+          border-color: #333;
+        }
+
+        .form-group input::placeholder {
+          color: #aaa;
+        }
+
+        .btn {
+          width: 100%;
+          padding: 0.75rem;
+          background: #333;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          font-size: 1rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+          background: #555;
+        }
+
+        .form-footer {
+          margin-top: 2rem;
+          text-align: center;
+        }
+
+        .form-footer a {
+          color: #333;
+          text-decoration: none;
+          font-size: 0.9rem;
+        }
+
+        .form-footer a:hover {
+          text-decoration: underline;
+        }
+
+        .divider {
+          margin: 1.5rem 0;
+          text-align: center;
+          color: #666;
+          font-size: 0.9rem;
+        }
+
+        .back-home {
+          position: absolute;
+          top: 2rem;
+          left: 2rem;
+        }
+
+        .back-home a {
+          color: #333;
+          text-decoration: none;
+          font-size: 0.9rem;
+          padding: 0.5rem 1rem;
+          border: 1px solid #e9ecef;
+          border-radius: 5px;
+          background: #fff;
+          transition: all 0.3s ease;
+        }
+
+        .back-home a:hover {
+          border-color: #333;
+        }
+
+        @media (max-width: 480px) {
+          .login-container {
+            margin: 1rem;
+            padding: 2rem 1.5rem;
+          }
+
+          .back-home {
+            position: static;
+            text-align: center;
+            margin-bottom: 2rem;
+          }
+        }
+      `}</style>
+
+      <div className="signin-body">
+        <div className="back-home">
+          <Link to="/">← Back to Home</Link>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-6">
-            <label htmlFor="email" className="form-label">
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              className="form-input"
-              required
-            />
+        <div className="login-container">
+          <div className="logo">
+            <h1>Sign In</h1>
+            <p>Access your library account</p>
           </div>
 
-          <div className="mb-6">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-              className="form-input"
-              required
-            />
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <button type="submit" className="btn">
+              Sign In
+            </button>
+          </form>
+
+          <div className="form-footer">
+            <Link to="/forgot-password">Forgot your password?</Link>
+
+            <div className="divider">Don't have an account?</div>
+
+            <Link to="/register" style={{ fontWeight: "500" }}>
+              Create Account
+            </Link>
           </div>
-
-          <button type="submit" className="btn btn-primary w-full mb-6">
-            Sign In
-          </button>
-        </form>
-
-        <div className="text-center">
-          <Link to="/forgot-password" className="text-gray-600 hover:text-gray-800 text-sm">
-            Forgot your password?
-          </Link>
-
-          <div className="my-4 text-gray-600 text-sm">Don't have an account?</div>
-
-          <Link to="/register" className="text-gray-800 font-medium hover:underline">
-            Create Account
-          </Link>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

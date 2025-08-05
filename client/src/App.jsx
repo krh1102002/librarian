@@ -16,6 +16,7 @@ import OverdueBooksPage from "./components/OverdueBooks";
 import ReturnBook from "./components/ReturnBook";
 import LibrarianDashboard from "./components/LibrarianDashboard";
 import AddMember from "./pages/AddMember";
+import CollectPayment from "./components/CollectPayment";
 
 function App() {
   return (
@@ -34,10 +35,7 @@ function App() {
           <Route path="/add-member" element={<AddMember />} />
           <Route path="/issue-book" element={<IssueBook />} />
           <Route path="/return-book" element={<ReturnBook />} />
-          <Route
-            path="/collect-payment"
-            element={<div>Collect Payment Page (Coming Soon)</div>}
-          />
+          <Route path="/collect-payment" element={<CollectPayment />} />
           <Route
             path="/librarian-dashboard"
             element={<LibrarianDashboard />}

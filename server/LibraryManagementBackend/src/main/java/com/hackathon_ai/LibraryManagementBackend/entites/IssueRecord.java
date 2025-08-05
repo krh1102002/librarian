@@ -7,16 +7,17 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime; // Updated import
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "issue_records")
-public class IssueRecord extends BaseEntity{
+public class IssueRecord extends BaseEntity {
 
-    private Date expectedDue;
+    private LocalDate expectedDue; // Changed from Date to LocalDateTime
 
-    private Date returnedAt;
+    private LocalDate returnedAt; // Changed from Date to LocalDateTime
 
     @ManyToOne
     @JoinColumn(name = "copy_id")
@@ -26,4 +27,3 @@ public class IssueRecord extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 }
-

@@ -31,6 +31,4 @@ public class Book extends BaseEntity{
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Copy> copies;
-
-
 }

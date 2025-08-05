@@ -7,6 +7,7 @@ import BooksCatalog from "./pages/BooksCatalog";
 import AddBook from "./pages/AddBook";
 import "./index.css";
 import AddBookCopy from "./pages/AddBookCopy";
+import AddMember from "./pages/AddMember";
 
 function App() {
   return (
@@ -21,10 +22,7 @@ function App() {
           <Route path="/add-book" element={<AddBook />} />
 
           {/* Placeholder routes for other pages */}
-          <Route
-            path="/add-member"
-            element={<div>Add Member Page (Coming Soon)</div>}
-          />
+          <Route path="/add-member" element={<AddMember />} />
           <Route
             path="/issue-book"
             element={<div>Issue Book Page (Coming Soon)</div>}

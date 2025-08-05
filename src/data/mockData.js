@@ -8,10 +8,11 @@ export const books = [
     subject: "Programming",
     isbn: "978-0132350884",
     price: 2499,
-    description: "Even bad code can function. But if code isn't clean, it can bring a development organization to its knees.",
+    description:
+      "Even bad code can function. But if code isn't clean, it can bring a development organization to its knees.",
     totalCopies: 5,
     availableCopies: 3,
-    issuedCopies: 2
+    issuedCopies: 2,
   },
   {
     id: 2,
@@ -23,7 +24,7 @@ export const books = [
     description: "Your journey to mastery in software development.",
     totalCopies: 3,
     availableCopies: 1,
-    issuedCopies: 2
+    issuedCopies: 2,
   },
   {
     id: 3,
@@ -32,10 +33,11 @@ export const books = [
     subject: "Programming",
     isbn: "978-0201633612",
     price: 3299,
-    description: "Capturing a wealth of experience about the design of object-oriented software.",
+    description:
+      "Capturing a wealth of experience about the design of object-oriented software.",
     totalCopies: 4,
     availableCopies: 0,
-    issuedCopies: 4
+    issuedCopies: 4,
   },
   {
     id: 4,
@@ -47,8 +49,8 @@ export const books = [
     description: "Most programming languages contain good and bad parts.",
     totalCopies: 6,
     availableCopies: 4,
-    issuedCopies: 2
-  }
+    issuedCopies: 2,
+  },
 ];
 
 export const members = [
@@ -64,7 +66,7 @@ export const members = [
     nextDueDate: "2025-08-30",
     booksIssued: 2,
     outstandingFines: 0,
-    membershipExpires: "2025-08-30"
+    membershipExpires: "2025-08-30",
   },
   {
     id: 1235,
@@ -78,7 +80,7 @@ export const members = [
     nextDueDate: "2025-08-28",
     booksIssued: 1,
     outstandingFines: 0,
-    membershipExpires: "2025-08-28"
+    membershipExpires: "2025-08-28",
   },
   {
     id: 1025,
@@ -92,7 +94,7 @@ export const members = [
     nextDueDate: "2025-07-03",
     booksIssued: 2,
     outstandingFines: 140,
-    membershipExpires: "2025-07-03"
+    membershipExpires: "2025-07-03",
   },
   {
     id: 1087,
@@ -106,8 +108,8 @@ export const members = [
     nextDueDate: "2025-07-20",
     booksIssued: 1,
     outstandingFines: 80,
-    membershipExpires: "2025-07-20"
-  }
+    membershipExpires: "2025-07-20",
+  },
 ];
 
 export const bookCopies = [
@@ -118,7 +120,7 @@ export const bookCopies = [
     condition: "Good",
     status: "available",
     addedDate: "2023-01-15",
-    lastBorrowed: "2025-07-10"
+    lastBorrowed: "2025-07-10",
   },
   {
     id: "002",
@@ -127,7 +129,7 @@ export const bookCopies = [
     condition: "Excellent",
     status: "available",
     addedDate: "2023-01-15",
-    lastBorrowed: "Never"
+    lastBorrowed: "Never",
   },
   {
     id: "003",
@@ -136,7 +138,7 @@ export const bookCopies = [
     condition: "Good",
     status: "available",
     addedDate: "2024-03-10",
-    lastBorrowed: "2025-06-05"
+    lastBorrowed: "2025-06-05",
   },
   {
     id: "004",
@@ -147,7 +149,7 @@ export const bookCopies = [
     addedDate: "2023-01-15",
     issuedTo: "John Doe (LIB001234)",
     issueDate: "2025-08-03",
-    dueDate: "2025-08-10"
+    dueDate: "2025-08-10",
   },
   {
     id: "005",
@@ -158,8 +160,8 @@ export const bookCopies = [
     addedDate: "2023-01-15",
     issuedTo: "Alice Smith (LIB001235)",
     issueDate: "2025-07-29",
-    dueDate: "2025-08-05"
-  }
+    dueDate: "2025-08-05",
+  },
 ];
 
 export const issueHistory = [
@@ -176,7 +178,7 @@ export const issueHistory = [
     returnDate: null,
     status: "current",
     fineAmount: 0,
-    daysRemaining: 7
+    daysRemaining: 7,
   },
   {
     id: 2,
@@ -191,7 +193,7 @@ export const issueHistory = [
     returnDate: null,
     status: "current",
     fineAmount: 0,
-    daysRemaining: 5
+    daysRemaining: 5,
   },
   {
     id: 3,
@@ -206,8 +208,8 @@ export const issueHistory = [
     returnDate: "2025-08-01",
     status: "returned_late",
     fineAmount: 50,
-    daysOverdue: 10
-  }
+    daysOverdue: 10,
+  },
 ];
 
 export const overdueBooks = [
@@ -221,7 +223,7 @@ export const overdueBooks = [
     dueDate: "2025-07-15",
     daysOverdue: 19,
     priority: "critical",
-    fineAmount: 95
+    fineAmount: 95,
   },
   {
     id: 2,
@@ -233,8 +235,8 @@ export const overdueBooks = [
     dueDate: "2025-07-18",
     daysOverdue: 16,
     priority: "critical",
-    fineAmount: 80
-  }
+    fineAmount: 80,
+  },
 ];
 
 export const paymentHistory = [
@@ -247,7 +249,7 @@ export const paymentHistory = [
     method: "cash",
     date: "2025-08-03",
     receiptNumber: "RCP202508030001",
-    description: "Monthly Fee + Fine"
+    description: "Monthly Fee + Fine",
   },
   {
     id: 2,
@@ -258,8 +260,8 @@ export const paymentHistory = [
     method: "cash",
     date: "2025-08-03",
     receiptNumber: "RCP202508030002",
-    description: "Fine Payment"
-  }
+    description: "Fine Payment",
+  },
 ];
 
 export const racks = [
@@ -275,8 +277,8 @@ export const racks = [
       { name: "Programming", count: 25 },
       { name: "Science", count: 20 },
       { name: "Mathematics", count: 15 },
-      { name: "Other", count: 5 }
-    ]
+      { name: "Other", count: 5 },
+    ],
   },
   {
     id: 2,
@@ -289,9 +291,9 @@ export const racks = [
     subjects: [
       { name: "Programming", count: 30 },
       { name: "Business", count: 15 },
-      { name: "Arts", count: 13 }
-    ]
-  }
+      { name: "Arts", count: 13 },
+    ],
+  },
 ];
 
 export const subjects = [
@@ -303,7 +305,7 @@ export const subjects = [
   "Philosophy",
   "Business",
   "Arts",
-  "Other"
+  "Other",
 ];
 
 export const libraryStats = {
@@ -316,5 +318,98 @@ export const libraryStats = {
   overdueBooks: 8,
   totalFines: 485,
   monthlyRevenue: 18450,
-  rackLocations: 8
+  rackLocations: 8,
+};
+// src/data/mockData.js
+export const paymentReports = {
+  totalRevenueThisMonth: 18450,
+  membershipFeesThisMonth: 15500,
+  fineCollectionsThisMonth: 2950,
+  feePayingMembers: 31,
+  revenueChange: {
+    total: 15.2,
+    membershipFees: 8.5,
+    fineCollections: 45.3,
+    feePayingMembers: 2,
+  },
+  dailyCollections: [
+    {
+      date: "2025-08-03",
+      membershipFees: 2500,
+      fineCollections: 185,
+      totalCollections: 2685,
+      transactions: 8,
+    },
+    {
+      date: "2025-08-02",
+      membershipFees: 3000,
+      fineCollections: 95,
+      totalCollections: 3095,
+      transactions: 12,
+    },
+    {
+      date: "2025-08-01",
+      membershipFees: 2000,
+      fineCollections: 140,
+      totalCollections: 2140,
+      transactions: 9,
+    },
+    {
+      date: "2025-07-31",
+      membershipFees: 1500,
+      fineCollections: 75,
+      totalCollections: 1575,
+      transactions: 6,
+    },
+    {
+      date: "2025-07-30",
+      membershipFees: 3500,
+      fineCollections: 250,
+      totalCollections: 3750,
+      transactions: 15,
+    },
+  ],
+  quickStats: {
+    averageDailyCollection: 2649,
+    peakCollectionDay: { date: "2025-07-30", amount: 3750 },
+    averageTransactionValue: 265,
+    outstandingDues: 1240,
+    collectionEfficiency: 91.4,
+  },
+  paymentBreakdown: {
+    membershipFees: 12500,
+    fines: 745,
+  },
+  recentTransactions: [
+    {
+      member: "Robert Johnson (LIB001025)",
+      details: "Monthly Fee + Fine (Receipt: RCP202508030001)",
+      amount: 640,
+      time: "10:45 AM",
+    },
+    {
+      member: "Maria Garcia (LIB001087)",
+      details: "Fine Payment (Receipt: RCP202508030002)",
+      amount: 80,
+      time: "10:20 AM",
+    },
+    {
+      member: "Sarah Brown (LIB001298)",
+      details: "Monthly Fee (Receipt: RCP202508030003)",
+      amount: 500,
+      time: "09:55 AM",
+    },
+    {
+      member: "David Wilson (LIB001156)",
+      details: "Monthly Fee (Receipt: RCP202508020015)",
+      amount: 500,
+      time: "Yesterday 4:30 PM",
+    },
+    {
+      member: "Emma Wilson (LIB001456)",
+      details: "Fine Payment (Receipt: RCP202508020014)",
+      amount: 45,
+      time: "Yesterday 3:15 PM",
+    },
+  ],
 };

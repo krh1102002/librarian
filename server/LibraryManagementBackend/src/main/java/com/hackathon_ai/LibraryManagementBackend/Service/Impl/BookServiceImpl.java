@@ -1,5 +1,6 @@
-package com.hackathon_ai.LibraryManagementBackend.Service;
+package com.hackathon_ai.LibraryManagementBackend.Service.Impl;
 
+import com.hackathon_ai.LibraryManagementBackend.Service.BookService;
 import com.hackathon_ai.LibraryManagementBackend.entites.Book;
 import com.hackathon_ai.LibraryManagementBackend.enums.Subjects;
 import com.hackathon_ai.LibraryManagementBackend.repository.BookRepository;
@@ -49,7 +50,7 @@ public class BookServiceImpl implements BookService {
             Book book = bookRepository.findById(bookId).orElseThrow();
             book.setAuthor(bookUpdateDTO.getAuthor());
             book.setTitle(bookUpdateDTO.getTitle());
-            book.setSubject(bookUpdateDTO.getSubject());
+            book.setSub(bookUpdateDTO.getSubject());
             book.setIsbnNo(bookUpdateDTO.getIsbnNo());
             book.setPrice(bookUpdateDTO.getPrice());
             book.setDescription(bookUpdateDTO.getDescription());

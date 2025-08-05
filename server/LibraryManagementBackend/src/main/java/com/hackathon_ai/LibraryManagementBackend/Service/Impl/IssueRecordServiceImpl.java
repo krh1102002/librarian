@@ -1,9 +1,10 @@
-package com.hackathon_ai.LibraryManagementBackend.Service;
+package com.hackathon_ai.LibraryManagementBackend.Service.Impl;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
+import com.hackathon_ai.LibraryManagementBackend.Service.IssueRecordService;
 import com.hackathon_ai.LibraryManagementBackend.entites.Book;
 import com.hackathon_ai.LibraryManagementBackend.entites.Copy;
 import com.hackathon_ai.LibraryManagementBackend.entites.IssueRecord;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class IssueRecordServiceImpl implements IssueRecordService{
+public class IssueRecordServiceImpl implements IssueRecordService {
 
     private final IssueRecordRepository issueRecordRepository;
     private final CopyRepository copyRepository;

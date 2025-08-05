@@ -413,3 +413,36 @@ export const paymentReports = {
     },
   ],
 };
+
+export const mockMembers = [
+  {
+    id: 1025,
+    name: "Robert Johnson",
+    email: "robert.j@email.com",
+    phone: "+91 9876543212",
+    lastPayment: "2025-06-03",
+    status: "overdue",
+    monthlyFee: 500,
+    outstandingFines: 140,
+  },
+  {
+    id: 1087,
+    name: "Maria Garcia",
+    email: "maria.garcia@email.com",
+    phone: "+91 9876543213",
+    lastPayment: "2025-07-20",
+    status: "due",
+    monthlyFee: 500,
+    outstandingFines: 80,
+  },
+  {
+    id: 1234,
+    name: "John Doe",
+    email: "john.doe@email.com",
+    phone: "+91 9876543210",
+    lastPayment: "2025-07-30",
+    status: "active",
+    monthlyFee: 0, // Already paid
+    outstandingFines: 0,
+  },
+];

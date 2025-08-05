@@ -1,15 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate=useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
     if (email && password) {
+      navigate("/librarian-dashboard")
       console.log("Login attempt:", { email, password });
-      alert("Login functionality will be implemented with backend integration");
     }
   };
 

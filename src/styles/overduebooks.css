@@ -1,0 +1,63 @@
+.overdue-critical {
+  background-color: #fee2e2;
+}
+
+.priority-critical {
+  background-color: #fee2e2;
+}
+
+.overdue-high {
+  background-color: #fef3c7;
+}
+
+.priority-high {
+  background-color: #fef3c7;
+}
+
+.overdue-medium {
+  background-color: #d1fae5;
+}
+
+.overdue-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.book-info, .member-info {
+  min-width: 200px;
+}
+
+.book-title, .member-name {
+  font-weight: 500;
+}
+
+.book-author, .member-id {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.fine-amount, .actions-cell {
+  min-width: 100px;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.btn-small {
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-collect {
+  background-color: #059669;
+  color: white;
+}
+
+.btn-collect:hover {
+  background-color: #047857;
+}
